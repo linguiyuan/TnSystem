@@ -254,9 +254,9 @@
                 if(year == 1){
                     allmoney = money * year
                 }else if(year == 2){
-                    allmoney = money * year * 0.8
+                    allmoney = money * year * 8 / 10
                 }else if(year >= 3){
-                    allmoney = money * year * 0.7
+                    allmoney = money * year * 7 / 10
                 }
                 return allmoney;
             },

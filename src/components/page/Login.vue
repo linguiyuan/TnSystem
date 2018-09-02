@@ -12,7 +12,7 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <p style="font-size:12px;line-height:30px;color:rgb(32, 160, 255);display: flex;justify-content: space-between;">注册账号</p>
+                <!--<p style="font-size:12px;line-height:30px;color:rgb(32, 160, 255);display: flex;justify-content: space-between;">注册账号</p>-->
             </el-form>
         </div>
     </div>
@@ -23,8 +23,8 @@
         data: function(){
             return {
                 ruleForm: {
-                    username: 'admin',
-                    password: '123123'
+                    username: '',
+                    password: ''
                 },
                 rules: {
                     username: [
@@ -38,10 +38,20 @@
         },
         methods: {
             submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+                let vm = this;
+                vm.$refs[formName].validate((valid) => {
                     if (valid) {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
-                        this.$router.push('/');
+                        vm.$axios({
+                            method:'post',
+                            url:window.$g_Api+'/Admin/Login',
+                            data:vm.ruleForm
+                        })
+                           .then(function(res){
+                               console.log(res);
+                           })
+                           .catch(function(err){});
+                        sessionStorage.setItem('userType',vm.ruleForm.username);
+                        vm.$router.push('/');
                     } else {
                         console.log('error submit!!');
                         return false;
